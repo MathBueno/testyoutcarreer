@@ -12,8 +12,18 @@ export default {
         "2xl": "1400px",
       },
     },
+    fontFamily: {
+      heading: ["Space Grotesk", "sans-serif"],
+      body: ["DM Sans", "sans-serif"],
+    },
     extend: {
       colors: {
+        ocean: {
+          deep: "hsl(210 50% 7%)",
+          mid: "hsl(207 40% 22%)",
+          light: "hsl(186 55% 40%)",
+          teal: "hsl(168 60% 55%)",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
