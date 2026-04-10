@@ -3,11 +3,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { UserProfileProvider } from "@/context/UserProfileContext";
+import { CareerProvider } from "@/context/CareerContext";
 import Navbar from "@/components/Navbar";
 import Index from "./pages/Index";
-import ProfilePage from "./pages/ProfilePage";
-import DashboardPage from "./pages/DashboardPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -15,19 +13,17 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <UserProfileProvider>
+      <CareerProvider>
         <Toaster />
         <Sonner />
         <BrowserRouter>
           <Navbar />
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
-      </UserProfileProvider>
+      </CareerProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
