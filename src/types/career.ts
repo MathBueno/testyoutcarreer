@@ -1,49 +1,72 @@
-export interface UserProfile {
-  name: string;
-  email: string;
+// ── Profile (parsed by AI from free text / CV / LinkedIn) ──
+export interface ParsedProfile {
   hardSkills: string[];
   softSkills: string[];
   languages: string[];
+  experienceLevel: 'junior' | 'mid' | 'senior';
   courses: string[];
   education: string[];
-  experiences: Experience[];
+  totalYearsExperience: number;
+  careerTendencies: string[]; // analytical, creative, strategic, etc.
+  profileType: 'generalist' | 'specialist';
+  summary: string;
+  inconsistencies: string[];
 }
 
-export interface Experience {
+// ── Behavioral (Big Five) ──
+export interface BehavioralProfile {
+  openness: number;       // 1-5
+  conscientiousness: number;
+  extraversion: number;
+  agreeableness: number;
+  neuroticism: number;
+  dominantTraits: string[];
+}
+
+export interface BigFiveQuestion {
   id: string;
-  title: string;
-  company: string;
-  years: number;
+  text: string;
+  trait: keyof Omit<BehavioralProfile, 'dominantTraits'>;
+  reversed: boolean;
 }
 
-export interface CareerRole {
+// ── AI-generated role ──
+export interface GeneratedRole {
   id: string;
   title: string;
   area: string;
-  seniority: 'junior' | 'pleno' | 'senior' | 'lead';
-  requiredHardSkills: string[];
-  requiredSoftSkills: string[];
-  requiredLanguages: string[];
-  requiredCourses: string[];
-  minExperienceYears: number;
-}
-
-export interface RoleMatch {
-  role: CareerRole;
+  seniority: 'junior' | 'mid' | 'senior' | 'lead';
   compatibilityPercent: number;
   presentSkills: string[];
   missingSkills: string[];
-  presentSoftSkills: string[];
-  missingSoftSkills: string[];
-  presentLanguages: string[];
-  missingLanguages: string[];
-  suggestions: Suggestion[];
+  suggestions: RoleSuggestion[];
+  effortLevel: 'low' | 'medium' | 'high';
+  estimatedTimeMonths: number;
+  behavioralMatch?: number; // 0-100
+  zone: 'comfort' | 'growth';
 }
 
-export interface Suggestion {
-  type: 'course' | 'skill' | 'language' | 'certification';
+export interface RoleSuggestion {
+  type: 'hard_skill' | 'soft_skill' | 'language' | 'course' | 'certification';
   description: string;
 }
 
-export type AreaFilter = 'all' | 'tech' | 'design' | 'marketing' | 'management' | 'data';
-export type SeniorityFilter = 'all' | 'junior' | 'pleno' | 'senior' | 'lead';
+// ── Career direction grouping ──
+export interface CareerDirection {
+  name: string;
+  description: string;
+  roles: GeneratedRole[];
+  overallCompatibility: number;
+}
+
+// ── Full analysis result ──
+export interface CareerAnalysis {
+  parsedProfile: ParsedProfile;
+  behavioralProfile?: BehavioralProfile;
+  directions: CareerDirection[];
+  allRoles: GeneratedRole[];
+  insights: string[];
+}
+
+// ── Input mode ──
+export type InputMode = 'text' | 'linkedin' | 'cv';
